@@ -24,6 +24,17 @@ export function readEnvBoolean(name: string, fallback: boolean) {
   return raw === "true";
 }
 
+export function readEnvNumber(name: string, fallback: number) {
+  const raw = readEnvString(name, String(fallback));
+  const value = Number(raw);
+
+  if (!Number.isFinite(value) || value <= 0) {
+    throw new Error(`${name} deve ser um número maior que zero.`);
+  }
+
+  return value;
+}
+
 function readLogLevel() {
   const raw = readEnvString("LOG_LEVEL", "info").toLowerCase() as LogLevel;
 

@@ -1,15 +1,18 @@
 import {
+  AttachmentBuilder,
   Client,
   PermissionFlagsBits,
   type ClientUser,
   type GuildBasedChannel
 } from "discord.js";
+import type { GeneratedCard } from "./cards/cardConfig.js";
 import { logger } from "../utils/logger.js";
 
 type SendMessageOptions = {
   channelId: string;
   message: string;
   eventName: "guildMemberAdd" | "guildMemberRemove";
+  card?: GeneratedCard | null;
 };
 
 function canCheckPermissions(channel: GuildBasedChannel): channel is GuildBasedChannel & {
@@ -67,12 +70,24 @@ export async function sendMessageToChannel(client: Client, options: SendMessageO
       });
       return false;
     }
+
+    if (options.card && !permissions?.has(PermissionFlagsBits.AttachFiles)) {
+      logger.warn(`[${options.eventName}] Bot sem permissão de anexar arquivos. Enviando apenas texto.`, {
+        channelId: options.channelId
+      });
+      options.card = null;
+    }
   }
 
   try {
-    await channel.send({ content: options.message });
+    const files = options.card
+      ? [new AttachmentBuilder(options.card.buffer, { name: options.card.fileName })]
+      : undefined;
+
+    await channel.send({ content: options.message, files });
     logger.info(`[${options.eventName}] Mensagem enviada.`, {
-      channelId: options.channelId
+      channelId: options.channelId,
+      withCard: Boolean(options.card)
     });
     return true;
   } catch (error) {
