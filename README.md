@@ -244,6 +244,19 @@ START=npm run start
 - Se a Discloud **não executar `BUILD=npm run build`** (ou se a versão Free não permitir), rode `npm run build` localmente antes de zipar, **remova `dist` do `.discloudignore`** e inclua a pasta `dist/` no zip.
 - Para bot 24h com mais folga (CPU, RAM, cards, futura persistência), use a opção da Oracle Cloud descrita abaixo.
 
+## Deploy temporário no JustRunMy.App
+
+O bot já foi testado com sucesso no [JustRunMy.App](https://justrunmy.app), com welcome/leave funcionando. Útil como **ambiente temporário** de validação, não como hospedagem definitiva.
+
+Pontos a considerar:
+
+- Bot Discord **não precisa de publicação web** — funciona com conexão de saída para o gateway. Não precisa expor portas.
+- O comando de execução é `npm start` (que executa `node dist/index.js` após o `npm run build`).
+- O plano gratuito pode ter **temporizador ou parada automática por inatividade**. Se isso acontecer, é só reiniciar pelo painel — ou migrar para uma opção persistente (Discloud, Railway, VPS Oracle).
+- **Variáveis de ambiente devem ser configuradas pelo painel** do JustRunMy, nunca commitadas no GitHub.
+- **Token nunca em print, log público, README ou screenshot.** Se aparecer por engano, regenerar imediatamente no Discord Developer Portal.
+- Para uso prolongado/24h, prefira a Discloud Free (acima) ou Oracle Cloud Always Free (abaixo).
+
 ## Hospedagem 24h gratuita (Oracle Cloud Always Free)
 
 O caminho recomendado para deixar o bot online 24h sem custo é uma VM Ubuntu na **Oracle Cloud Always Free** (gratuito sem prazo de expiração) rodando o bot sob o **PM2**. O projeto já vem com `ecosystem.config.cjs` pronto para o PM2.
@@ -284,6 +297,7 @@ pm2 restart bot-discord-runnas
 | Plataforma | Adequado para bot Discord 24h? |
 |---|---|
 | Discloud Free | ✅ Mais simples para começar; 100 MB RAM, cards podem apertar |
+| JustRunMy.App | ⚠️ Bom para teste temporário; pode parar por inatividade |
 | Oracle Cloud Always Free | ✅ Recomendado para crescer, gratuito sem prazo |
 | Fly.io / Railway | ⚠️ Tier gratuito limitado, cartão exigido |
 | Render / Glitch (free tier) | ❌ Dormem por inatividade — bot cai |
