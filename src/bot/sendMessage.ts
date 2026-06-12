@@ -54,6 +54,13 @@ export async function sendMessageToChannel(client: Client, options: SendMessageO
   if (client.user && canCheckPermissions(channel)) {
     const permissions = channel.permissionsFor(client.user);
 
+    if (!permissions?.has(PermissionFlagsBits.ViewChannel)) {
+      logger.warn(`[${options.eventName}] Bot sem permissão de ver o canal.`, {
+        channelId: options.channelId
+      });
+      return false;
+    }
+
     if (!permissions?.has(PermissionFlagsBits.SendMessages)) {
       logger.warn(`[${options.eventName}] Bot sem permissão de enviar mensagem.`, {
         channelId: options.channelId

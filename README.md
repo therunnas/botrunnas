@@ -86,6 +86,12 @@ npm run build
 npm start
 ```
 
+Para testes:
+
+```powershell
+npm test
+```
+
 ## Testar Entrada E Saída
 
 1. Confirme que o bot aparece online no Discord.
@@ -94,6 +100,54 @@ npm start
 4. Convide uma conta de teste para o servidor.
 5. Remova a conta de teste para validar a mensagem de saída.
 6. Verifique se `{user.mention}` aparece como menção clicável.
+
+## Permissões Necessárias
+
+No canal configurado para boas-vindas e saída, o bot precisa de:
+
+- Ver canal.
+- Enviar mensagens.
+- Mencionar usuários.
+- Ler histórico de mensagens.
+
+Permissão futura para card:
+
+- Anexar arquivos.
+
+## Troubleshooting
+
+### Bot fica online, mas não manda mensagem
+
+Verifique se `SERVER MEMBERS INTENT` está ativado no Discord Developer Portal. Sem esse intent, o bot pode conectar, mas não recebe eventos de entrada e saída.
+
+### Canal errado no `.env`
+
+Confirme se `DISCORD_WELCOME_CHANNEL_ID` e `DISCORD_LEAVE_CHANNEL_ID` são IDs de canais do servidor correto.
+
+### ID de canal incorreto
+
+Ative o modo desenvolvedor no Discord, clique com o botão direito no canal e use Copiar ID. Não use o nome do canal.
+
+### Bot sem permissão no canal
+
+Garanta que o cargo do bot tem permissão para ver o canal e enviar mensagens. Se o canal tiver permissões específicas, revise a configuração do canal.
+
+### Processo `npm run dev` fechado
+
+O bot só fica online enquanto o processo local estiver aberto. Se fechar o terminal, o bot sai do ar.
+
+### `.env` não carregado
+
+Rode o comando dentro da pasta raiz do projeto:
+
+```powershell
+cd C:\Users\vinicius.macaneiro\Documents\GitHub\bot-discord-runnas
+npm run dev
+```
+
+### `{user.mention}` não aparece clicável
+
+Use exatamente `{user.mention}` no template. O bot converte esse valor para `<@ID_DO_USUARIO>`, que vira menção clicável no Discord.
 
 ## Por Que Não Rodar Na Vercel Agora
 

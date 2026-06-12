@@ -4,7 +4,7 @@ Este roadmap organiza o crescimento do BOT DISCORD RUNNAS por fases. A ideia é 
 
 ## Fase 1 - MVP Welcome/Leave
 
-Status: concluido.
+Status: concluida.
 
 Objetivo:
 - Bot online com `discord.js` v14.
@@ -22,6 +22,8 @@ Validacao:
 
 ## Fase 2 - Estabilizacao Do Modulo Welcome/Leave
 
+Status: concluida.
+
 Objetivo:
 - Revisar textos padrao.
 - Separar configuracao do modulo em arquivo proprio.
@@ -29,12 +31,21 @@ Objetivo:
 - Documentar erros comuns de permissao e intents.
 - Preparar testes unitarios para `renderTemplate`.
 
+Entregue:
+- Configuracao do modulo separada em `welcomeLeaveConfig.ts`.
+- Logs de ativacao, eventos recebidos e falhas esperadas.
+- Tratamento de canal ausente, canal invalido e permissao insuficiente.
+- Testes leves para `renderTemplate` com `node:test`.
+- Troubleshooting documentado no README.
+
 Fora do escopo:
 - Card de imagem.
 - Dashboard.
 - Banco de dados.
 
 ## Fase 3 - Card Personalizado
+
+Status: proxima fase, ainda fora do escopo atual.
 
 Objetivo:
 - Gerar card visual de boas-vindas.
