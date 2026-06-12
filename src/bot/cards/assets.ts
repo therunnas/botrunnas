@@ -207,19 +207,18 @@ function toCanvasText(value: string, options: { uppercase?: boolean } = {}) {
 }
 
 function getFallbackTitle(input: DrawCardInput) {
-  return input.filePrefix === "welcome" ? "BEM VINDO(A)" : "ADEUS";
+  return input.filePrefix === "welcome" ? "BEM VINDO" : "ADEUS";
+}
+
+function getFallbackSubtitle(input: DrawCardInput) {
+  return input.filePrefix === "welcome" ? "SO RELAXA E APROVEITA!" : "POXA E FOI EMBORA.";
 }
 
 function getCardTitle(input: DrawCardInput) {
-  const title = toCanvasText(input.title, { uppercase: true }) || getFallbackTitle(input);
-
-  if (input.filePrefix === "welcome") {
-    return title.replace(/BEM-?VINDO/g, "BEM VINDO");
-  }
-
-  return "ADEUS";
+  const cleaned = toCanvasText(input.title, { uppercase: true }) || getFallbackTitle(input);
+  return cleaned.replace(/BEM-?VINDO/g, "BEM VINDO");
 }
 
 function getCardSubtitle(input: DrawCardInput) {
-  return input.filePrefix === "welcome" ? "SO RELAXA E APROVEITA!" : "POXA E FOI EMBORA.";
+  return toCanvasText(input.subtitle) || getFallbackSubtitle(input);
 }

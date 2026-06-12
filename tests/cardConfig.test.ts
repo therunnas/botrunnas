@@ -51,7 +51,7 @@ test("carrega card desativado por padrão", () => {
     assert.equal(config.leaveCardEnabled, false);
     assert.equal(config.width, 820);
     assert.equal(config.height, 360);
-    assert.equal(config.welcomeTitle, "BEM VINDO(A)");
+    assert.equal(config.welcomeTitle, "BEM VINDO");
     assert.equal(config.welcomeSubtitle, "SO RELAXA E APROVEITA!");
     assert.equal(config.leaveTitle, "ADEUS");
     assert.equal(config.leaveSubtitle, "POXA E FOI EMBORA.");
