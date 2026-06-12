@@ -45,19 +45,30 @@ Fora do escopo:
 
 ## Fase 3 - Card Personalizado
 
-Status: proxima fase, ainda fora do escopo atual.
+Status: concluida.
 
 Objetivo:
 - Gerar card visual de boas-vindas.
+- Gerar card visual de saida.
 - Permitir ativar/desativar card por `.env`.
 - Manter mensagem textual como fallback.
-- Escolher biblioteca de imagem com suporte local estavel.
+- Escolher biblioteca de imagem com suporte local estavel no Windows.
 
-Decisoes futuras:
-- Layout do card.
-- Fonte e cores da identidade Runnas.
-- Imagem de fundo padrao.
-- Onde salvar assets.
+Entregue:
+- Cards PNG opcionais para welcome e leave.
+- Avatar do usuario quando disponivel.
+- Nome do usuario, titulo e subtitulo em layout centralizado.
+- Envio como anexo no `discord.js`.
+- Fallback textual caso a imagem falhe.
+- Configuracao via `.env.example`.
+- Testes de configuracao e fallback de envio textual.
+- Ajuste visual para layout simples centralizado, sem emojis dentro da imagem.
+
+Fora do escopo:
+- Dashboard.
+- Banco de dados.
+- Configuracao por servidor fora do `.env`.
+- Card com imagem de fundo customizada.
 
 ## Fase 4 - Persistencia E Configuracao Por Servidor
 

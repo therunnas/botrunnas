@@ -1,9 +1,14 @@
 import { Events, type Client } from "discord.js";
+import type { CardConfig } from "./cards/cardConfig.js";
 import { logger } from "../utils/logger.js";
 import { registerWelcomeLeaveModule } from "./modules/welcomeLeave.js";
 import type { WelcomeLeaveConfig } from "./modules/welcomeLeaveConfig.js";
 
-export function registerBotEvents(client: Client, welcomeLeaveConfig: WelcomeLeaveConfig) {
+export function registerBotEvents(
+  client: Client,
+  welcomeLeaveConfig: WelcomeLeaveConfig,
+  cardConfig: CardConfig
+) {
   client.once(Events.ClientReady, () => {
     logger.info(`BOT DISCORD RUNNAS online como ${client.user?.tag ?? "usuario desconhecido"}.`);
 
@@ -16,7 +21,7 @@ export function registerBotEvents(client: Client, welcomeLeaveConfig: WelcomeLea
     }
   });
 
-  registerWelcomeLeaveModule(client, welcomeLeaveConfig);
+  registerWelcomeLeaveModule(client, welcomeLeaveConfig, cardConfig);
 
   client.on("error", (error) => {
     logger.error("Erro emitido pelo cliente Discord.", error.message);
