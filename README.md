@@ -203,6 +203,47 @@ Confirme se `DISCORD_WELCOME_CARD_ENABLED` ou `DISCORD_LEAVE_CARD_ENABLED` está
 
 O bot registra o erro no terminal e envia apenas a mensagem textual. Isso é esperado como fallback para não derrubar o bot.
 
+## Deploy na Discloud Free
+
+A [Discloud](https://discloud.com) é a opção mais simples para hospedar este bot enquanto ele ainda é pequeno (boas-vindas, saída, cards). O plano **Free** dá **100 MB de RAM**, o que cobre o MVP com folga, mas é apertado se você gerar muitos cards PNG em paralelo.
+
+O projeto já vem com `discloud.config` e `.discloudignore` prontos na raiz.
+
+### Conteúdo do `discloud.config`
+
+```ini
+NAME=bot-discord-runnas
+TYPE=bot
+MAIN=dist/index.js
+RAM=100
+VERSION=latest
+BUILD=npm run build
+START=npm run start
+```
+
+### Passo a passo do upload
+
+1. Gere um **zip do projeto** sem `node_modules`, `.git`, `.env`, `dist`, `coverage` e `*.log`. O `.discloudignore` ajuda a Discloud a filtrar isso no upload, mas garanta no seu zip local também:
+   ```powershell
+   # PowerShell — cria um zip ignorando o que importa
+   Compress-Archive -Path * -DestinationPath bot-discord-runnas.zip `
+     -Exclude node_modules, .git, .env, dist, coverage, *.log
+   ```
+2. No painel da Discloud (`https://discloud.com/dashboard`), use **Upload** e envie o zip.
+3. Configure o **token e demais variáveis de ambiente** pelo painel da Discloud (campo de secrets/env), nunca dentro do zip. Se a Discloud não oferecer painel de env, suba o `.env` apenas dentro do ambiente seguro deles, **nunca no GitHub**.
+4. Acompanhe o build e o start no log do painel. Se o bot subir com a tag `online`, está pronto.
+
+### Limites e como contornar
+
+- **100 MB de RAM** é apertado quando os cards estão ligados. Se o processo cair com `OOM` ou for reiniciado por consumo, desative os cards temporariamente no `.env` da Discloud:
+  ```env
+  DISCORD_WELCOME_CARD_ENABLED=false
+  DISCORD_LEAVE_CARD_ENABLED=false
+  ```
+  As mensagens de texto continuam normais — o card é opcional por design.
+- Se a Discloud **não executar `BUILD=npm run build`** (ou se a versão Free não permitir), rode `npm run build` localmente antes de zipar, **remova `dist` do `.discloudignore`** e inclua a pasta `dist/` no zip.
+- Para bot 24h com mais folga (CPU, RAM, cards, futura persistência), use a opção da Oracle Cloud descrita abaixo.
+
 ## Hospedagem 24h gratuita (Oracle Cloud Always Free)
 
 O caminho recomendado para deixar o bot online 24h sem custo é uma VM Ubuntu na **Oracle Cloud Always Free** (gratuito sem prazo de expiração) rodando o bot sob o **PM2**. O projeto já vem com `ecosystem.config.cjs` pronto para o PM2.
@@ -242,7 +283,8 @@ pm2 restart bot-discord-runnas
 
 | Plataforma | Adequado para bot Discord 24h? |
 |---|---|
-| Oracle Cloud Always Free | ✅ Recomendado, gratuito sem prazo |
+| Discloud Free | ✅ Mais simples para começar; 100 MB RAM, cards podem apertar |
+| Oracle Cloud Always Free | ✅ Recomendado para crescer, gratuito sem prazo |
 | Fly.io / Railway | ⚠️ Tier gratuito limitado, cartão exigido |
 | Render / Glitch (free tier) | ❌ Dormem por inatividade — bot cai |
 | Vercel | ❌ Serverless, não mantém WebSocket persistente |
