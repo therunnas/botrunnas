@@ -1,14 +1,17 @@
 import { createDiscordClient, loginDiscordClient } from "./bot/client.js";
 import { registerBotEvents } from "./bot/events.js";
+import { loadWelcomeLeaveConfig } from "./bot/modules/welcomeLeaveConfig.js";
 import { loadEnv } from "./config/env.js";
 import { logger } from "./utils/logger.js";
 
 async function main() {
   let env;
+  let welcomeLeaveConfig;
 
   try {
     env = loadEnv();
     logger.setLevel(env.logLevel);
+    welcomeLeaveConfig = loadWelcomeLeaveConfig();
   } catch (error) {
     logger.error("Configuração inválida no .env.", error instanceof Error ? error.message : error);
     process.exitCode = 1;
@@ -26,7 +29,7 @@ async function main() {
   }
 
   const client = createDiscordClient();
-  registerBotEvents(client, env);
+  registerBotEvents(client, welcomeLeaveConfig);
 
   const loggedIn = await loginDiscordClient(client, env.token);
 
