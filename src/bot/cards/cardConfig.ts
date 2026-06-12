@@ -34,7 +34,7 @@ export function loadCardConfig(): CardConfig {
     leaveCardEnabled: readEnvBoolean("DISCORD_LEAVE_CARD_ENABLED", false),
     width: readEnvNumber("DISCORD_CARD_WIDTH", 820),
     height: readEnvNumber("DISCORD_CARD_HEIGHT", 360),
-    welcomeTitle: readEnvString("DISCORD_WELCOME_CARD_TITLE", "BEM VINDO(A)"),
+    welcomeTitle: readEnvString("DISCORD_WELCOME_CARD_TITLE", "BEM VINDO"),
     welcomeSubtitle: readEnvString(
       "DISCORD_WELCOME_CARD_SUBTITLE",
       "SO RELAXA E APROVEITA!"
